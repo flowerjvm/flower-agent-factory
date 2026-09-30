@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -28,6 +29,14 @@ class MaintenanceAcceptanceGateTest {
     private static final ContentHash SOURCE_HASH = HASHER.sha256("immutable-candidate".getBytes(StandardCharsets.UTF_8));
     private static final String SOURCE = "package candidate; public final class Candidate {}";
     @TempDir Path temporaryDirectory;
+
+    @BeforeEach
+    void useCanonicalFixtureDirectory() throws IOException {
+        // Hosted Windows runners may expose the system temp root through a short-name
+        // alias. Valid fixtures must meet the same exact-path contract as production
+        // workspaces; do not weaken the acceptance gate's alias/link rejection.
+        temporaryDirectory = temporaryDirectory.toRealPath();
+    }
 
     @Test
     void hostComparesGoldenAndCopiesOnlyMainSourceIntoFreshProbeWorkspace() throws Exception {

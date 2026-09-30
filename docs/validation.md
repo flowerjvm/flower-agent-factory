@@ -25,6 +25,21 @@ native profile과 실제 생산은 이번 소스 게시 검증에 포함하지 �
 helper 검사의 첫 실행도 npm 의존성 설치가 완료되기 전에 시작해 실패했으며, 설치 완료 후
 같은 31개 검사를 재실행해 모두 통과했다. 이 초기 실패를 성공 결과로 간주하지 않는다.
 
+## 공개 GitHub 자동 검사
+
+[Verify workflow](../.github/workflows/verify.yml)는 공개 checkout에서 Java 21,
+Node 22와 Windows runner로 기본 Maven 검사, Node runner 검사와 helper 검사를 수행한다.
+각 커밋의 실제 결과는 [GitHub Actions](https://github.com/flowerjvm/flower-agent-factory/actions/workflows/verify.yml)에서 확인한다.
+native profile이나 실제 모델 생산은 이 workflow의 범위가 아니다.
+
+[첫 공개 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36705528991)은
+`MaintenanceAcceptanceGateTest` 6개에서 `unsafe acceptance directory`로 실패했다.
+Windows runner의 임시 경로 별칭을 정상 fixture로 사용하지 않도록 JUnit 임시 디렉터리를
+`toRealPath()`로 정규화했다. 제품의 alias/link 거부 조건과 main 소스는 변경하지 않았다.
+로그가 실제 임시 경로를 출력하지 않으므로 별칭의 정확한 유형은 추론이며,
+수정 후 로컬 acceptance gate 검사 9개는 실패·오류·skip 없이 통과했다.
+첫 실패는 통과로 기록하지 않으며, 수정 커밋의 재실행 결과와 구분한다.
+
 ## 기본 검증 재현
 
 저장소 루트에서 Java 21을 선택하고 Node.js 20 이상을 PATH에 둔 뒤 Windows에서는 다음을 실행한다. Maven unit의 `CodexCodingWorkerContractTest`도 실제 Node 프로세스로 합성 Worker를 실행하므로 Maven 검사 단계부터 Node가 필요하다.
