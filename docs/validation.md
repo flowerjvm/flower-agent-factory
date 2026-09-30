@@ -32,6 +32,23 @@ Node 22와 Windows runner로 기본 Maven 검사, Node runner 검사와 helper �
 각 커밋의 실제 결과는 [GitHub Actions](https://github.com/flowerjvm/flower-agent-factory/actions/workflows/verify.yml)에서 확인한다.
 native profile이나 실제 모델 생산은 이 workflow의 범위가 아니다.
 
+2026-09-30 공개 소스 커밋 `2924b73bb8f3e00a377f3898703caac708526504`의
+[전체 CI 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36708011625)은
+**PASS**로 완료됐다. 종료 시각은 20:24 KST이며 로컬 검사 결과와 별도로 확인했다.
+
+| 공개 Windows CI 대상 | 실제 결과 |
+| --- | --- |
+| Java 21 Maven `verify` | 1,304 통과, 실패·오류·skip 0, reactor 및 패키징 성공 |
+| Flower Check | 네 모듈 no findings |
+| Node 22 runner | 56 통과, 실패·cancelled 0, opt-in 검사 1 skip |
+| Node 22 로컬 설정 helper | 31 통과, 실패·cancelled·skip 0 |
+
+실제 로그인·모델 호출·native profile·생산 주문·출고를 이 CI가 수행한 것으로 해석하지 않는다.
+Action 실행기의 Node 20 deprecation과 setup-java v4 deprecation 경고는 남았으며,
+검사 실패가 아닌 별도 CI Action 업그레이드 대상으로 구분한다.
+
+### 게시 준비 중 실패와 보완 이력
+
 [첫 공개 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36705528991)은
 `MaintenanceAcceptanceGateTest` 6개에서 `unsafe acceptance directory`로 실패했다.
 Windows runner의 임시 경로 별칭을 정상 fixture로 사용하지 않도록 JUnit 임시 디렉터리를
