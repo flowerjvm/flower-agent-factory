@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.github.flowerjvm.factory.fixture</groupId>
+  <artifactId>pr4-toolchain-probe</artifactId>
+  <version>1.0.0</version>
+  <dependencies>
+    <dependency><groupId>io.github.flowerjvm</groupId><artifactId>flower-core</artifactId><version>0.1.3</version></dependency>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.12.2</version><scope>test</scope></dependency>
+    <!-- Surefire discovers this provider dynamically after reading the candidate test engine;
+         go-offline does not otherwise include it in the immutable plugin closure. -->
+    <dependency><groupId>org.apache.maven.surefire</groupId><artifactId>surefire-junit-platform</artifactId><version>3.5.2</version><scope>test</scope></dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-clean-plugin</artifactId><version>3.4.1</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>3.3.1</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.14.1</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.2</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId><version>3.4.2</version></plugin>
+      <plugin><groupId>io.github.flowerjvm</groupId><artifactId>flower-check-maven-plugin</artifactId><version>0.1.3</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId><version>3.8.1</version></plugin>
+    </plugins>
+  </build>
+</project>

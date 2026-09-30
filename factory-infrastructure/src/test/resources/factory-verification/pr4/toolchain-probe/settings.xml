@@ -1,0 +1,10 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0">
+  <mirrors>
+    <mirror>
+      <id>factory-central-only</id>
+      <name>Factory PR4 Maven Central provenance boundary</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>

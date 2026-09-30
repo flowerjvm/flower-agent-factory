@@ -1,0 +1,42 @@
+# Build outputs and dependency caches
+**/target/
+**/node_modules/
+.m2/
+*.class
+*.jar
+*.zip
+
+# Local production records, shipment snapshots and consumer data
+.verification/
+.demo-runs/
+/tools/*/verification/
+demo-handoff-*/
+demo-products-*/
+**/incident-data/
+*.log
+*.dump
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+*.tmp
+
+# Credentials and machine-local configuration
+.env
+.env.*
+!.env.example
+**/auth.json
+**/credentials.json
+**/secrets/
+**/.codex/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

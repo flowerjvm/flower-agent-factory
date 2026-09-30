@@ -1,0 +1,21 @@
+{
+  "incidentId": "INC-DEMO-001",
+  "service": "checkout-api",
+  "summary": "결제 요청 지연과 오류율 증가",
+  "observations": [
+    {
+      "evidenceId": "EV-2",
+      "source": "sample-metric",
+      "observedAt": "2026-09-12T00:03:00Z",
+      "kind": "METRIC",
+      "message": "5xx error rate elevated"
+    },
+    {
+      "evidenceId": "EV-1",
+      "source": "sample-log",
+      "observedAt": "2026-09-12T00:02:00Z",
+      "kind": "LOG",
+      "message": "Upstream request TIMEOUT"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@flower-agent-factory/codex-worker-runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "ci:test": "npm ci --ignore-scripts && npm test",
+    "smoke": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@openai/codex-sdk": "0.148.0"
+  }
+}

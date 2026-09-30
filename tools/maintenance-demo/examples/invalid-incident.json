@@ -1,0 +1,14 @@
+{
+  "incidentId": "INC-INVALID",
+  "service": "checkout-api",
+  "summary": "날짜 형식 오류를 확인하는 예제",
+  "observations": [
+    {
+      "evidenceId": "EV-1",
+      "source": "sample-log",
+      "observedAt": "not-a-timestamp",
+      "kind": "LOG",
+      "message": "timeout"
+    }
+  ]
+}
