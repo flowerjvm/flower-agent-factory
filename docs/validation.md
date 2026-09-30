@@ -40,6 +40,13 @@ Windows runner의 임시 경로 별칭을 정상 fixture로 사용하지 않도�
 수정 후 로컬 acceptance gate 검사 9개는 실패·오류·skip 없이 통과했다.
 첫 실패는 통과로 기록하지 않으며, 수정 커밋의 재실행 결과와 구분한다.
 
+[두 번째 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36706020292)에서
+앞선 acceptance 검사와 인프라 검사 473개는 통과했지만, host의 두 local-decision
+테스트 클래스에서 같은 경로 조건으로 7개가 실패했다. 해당 JUnit fixture도
+정규화했으며 CI의 `TEMP`/`TMP`는 runner 소유 임시 루트로 지정했다.
+사람 승인·문서 읽기·권한 정책을 변경하거나 검사를 제외하지 않는다.
+수정 후 두 host 클래스의 로컬 검사 21개는 실패·오류·skip 없이 통과했다.
+
 ## 기본 검증 재현
 
 저장소 루트에서 Java 21을 선택하고 Node.js 20 이상을 PATH에 둔 뒤 Windows에서는 다음을 실행한다. Maven unit의 `CodexCodingWorkerContractTest`도 실제 Node 프로세스로 합성 Worker를 실행하므로 Maven 검사 단계부터 Node가 필요하다.

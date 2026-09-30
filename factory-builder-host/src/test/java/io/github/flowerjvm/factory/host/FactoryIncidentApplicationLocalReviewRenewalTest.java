@@ -12,9 +12,11 @@ import io.github.flowerjvm.flower.core.engine.Engine;
 import io.github.flowerjvm.flower.core.persistence.FlowCheckpointStore;
 import io.github.flowerjvm.flower.core.recovery.FlowFactoryRegistry;
 import io.github.flowerjvm.flower.core.worker.Worker;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.support.StaticListableBeanFactory;
@@ -27,6 +29,11 @@ class FactoryIncidentApplicationLocalReviewRenewalTest {
     private static final String PREFIX = "factory.production.incident-application.local-review-renewal.";
     @TempDir Path directory;
     private final ObjectMapper mapper = new ObjectMapper();
+
+    @BeforeEach
+    void canonicalizeTemporaryDirectory() throws IOException {
+        directory = directory.toRealPath();
+    }
 
     @Test void exactTwoProductCommandUsesNativeUserAndHashBoundGrantWithoutApprovalOrServiceImpersonation() throws Exception {
         var proposals = new ArrayList<ActionProposal>(); var contexts = new ArrayList<ExecutionContext>();

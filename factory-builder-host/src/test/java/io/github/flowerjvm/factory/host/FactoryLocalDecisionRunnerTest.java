@@ -9,6 +9,7 @@ import io.github.flowerjvm.flower.action.runtime.ActionProposal;
 import io.github.flowerjvm.flower.action.runtime.ActionRequestChannel;
 import io.github.flowerjvm.flower.action.runtime.ActionProposerType;
 import io.github.flowerjvm.flower.action.runtime.ExecutionContext;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.boot.DefaultApplicationArguments;
@@ -28,6 +30,11 @@ import org.springframework.core.env.MapPropertySource;
 class FactoryLocalDecisionRunnerTest {
     private static final String SID = "S-1-5-21-100-200-300-1001";
     @TempDir Path directory;
+
+    @BeforeEach
+    void canonicalizeTemporaryDirectory() throws IOException {
+        directory = directory.toRealPath();
+    }
 
     @Test
     @org.junit.jupiter.api.condition.EnabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
