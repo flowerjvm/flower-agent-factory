@@ -47,6 +47,11 @@ Windows runner의 임시 경로 별칭을 정상 fixture로 사용하지 않도�
 사람 승인·문서 읽기·권한 정책을 변경하거나 검사를 제외하지 않는다.
 수정 후 두 host 클래스의 로컬 검사 21개는 실패·오류·skip 없이 통과했다.
 
+[세 번째 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36706832160)은
+job-level `env`에서 사용할 수 없는 `runner.temp` context 때문에 job을 시작하지 못했다.
+임시 루트 설정을 [GitHub의 context 허용 범위](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)에
+맞는 step-level `env`로 이동했다. 이 실행은 코드 검사를 수행한 결과로 집계하지 않는다.
+
 ## 기본 검증 재현
 
 저장소 루트에서 Java 21을 선택하고 Node.js 20 이상을 PATH에 둔 뒤 Windows에서는 다음을 실행한다. Maven unit의 `CodexCodingWorkerContractTest`도 실제 Node 프로세스로 합성 Worker를 실행하므로 Maven 검사 단계부터 Node가 필요하다.
