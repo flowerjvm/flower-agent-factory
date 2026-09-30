@@ -126,11 +126,25 @@ test("cancel before provider start is terminal and does not invoke the backend",
 });
 
 test("running operation cooperatively observes durable cancel without killing a pid", async () => {
+  let observedAbort = false;
   const backend = {
     async run({ signal }) {
-      await new Promise((resolve, reject) => {
-        signal.addEventListener("abort", () => reject(new Error("cancelled")), { once: true });
-      });
+      let cancellationDeadline;
+      try {
+        await new Promise((resolve, reject) => {
+          // A real provider child keeps the process alive; this promise-only fake needs
+          // its own bounded handle while the production cancellation monitor is unref'd.
+          cancellationDeadline = setTimeout(() => reject(new Error("fake backend cancellation timed out")), 5_000);
+          const onAbort = () => {
+            observedAbort = true;
+            reject(new Error("cancelled"));
+          };
+          if (signal.aborted) onAbort();
+          else signal.addEventListener("abort", onAbort, { once: true });
+        });
+      } finally {
+        clearTimeout(cancellationDeadline);
+      }
     }
   };
   const fixture = await createFixture({ backend });
@@ -148,6 +162,7 @@ test("running operation cooperatively observes durable cancel without killing a 
   const terminal = await execution;
 
   assert.equal(cancellation.state.status, "CANCEL_REQUESTED");
+  assert.equal(observedAbort, true, "the backend must observe abort, not only a cancellation deadline");
   assert.equal(terminal.status, "CANCELLED");
   assert.equal(terminal.executionOwnerId, null);
 });

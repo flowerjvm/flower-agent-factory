@@ -52,6 +52,17 @@ job-level `env`에서 사용할 수 없는 `runner.temp` context 때문에 job�
 임시 루트 설정을 [GitHub의 context 허용 범위](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)에
 맞는 step-level `env`로 이동했다. 이 실행은 코드 검사를 수행한 결과로 집계하지 않는다.
 
+[네 번째 실행](https://github.com/flowerjvm/flower-agent-factory/actions/runs/36707169203)에서
+Java 검사 1,304개와 네 모듈 Flower Check가 통과했고 Node 의존성 설치도 성공했다.
+Node 22 검사에서는 fake backend가 abort를 기다리는 Promise만 갖고 실행을 유지할
+handle이 없어 첫 취소 테스트와 뒤의 13개가 취소됐다(42 통과, 14 cancelled, 선택 1 skip).
+테스트 backend에만 제한 시간 watchdog을 추가해 실제 subprocess의 대기 수명을 모사하고,
+실제 abort 관측도 확인한다. 운영 코드의 unref timer·취소 정책은 변경하지 않는다.
+수정 후 Node 26.1.0과 24.19.0의 전체 runner 검사는 각각 56 통과·선택 1 skip이며
+실패·cancelled 0이었다. Node 24.19.0 helper 검사도 31개 모두 통과했다.
+로컬 환경에서 변경 전 취소 오류가 재현된 것으로 주장하지 않으며 Node 22 결과는
+공개 workflow의 해당 수정 커밋 실행으로 별도 확인한다.
+
 ## 기본 검증 재현
 
 저장소 루트에서 Java 21을 선택하고 Node.js 20 이상을 PATH에 둔 뒤 Windows에서는 다음을 실행한다. Maven unit의 `CodexCodingWorkerContractTest`도 실제 Node 프로세스로 합성 Worker를 실행하므로 Maven 검사 단계부터 Node가 필요하다.
